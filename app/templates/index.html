@@ -23,6 +23,9 @@
 <p>
    Scenarios (expected score: {{ game["expected_score"] }}):
    <ul>
+       <li>
+           * : {{ game["wild_scoring_hand"] | safe }} => {{ game["wild_score"] }}
+       </li>
        {% for draw, hand, score in game["scenarios"] %}
            <li>
                {{ draw | safe }} : {{ hand | safe }} => {{ score }}

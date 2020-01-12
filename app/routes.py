@@ -63,6 +63,11 @@ def hello_world():
             for draw, scoring_hand, score
             in simulated["scenarios"]
         ],
+        "wild_scoring_hand": [
+            card_to_fragment(card)
+            for card in cards.sort(simulated["wild_scoring_hand"])
+        ],
+        "wild_score": simulated["wild_score"],
         "expected_score": simulated["expected_score"],
         "current_score": current_score
     }
