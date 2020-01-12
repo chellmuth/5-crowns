@@ -40,15 +40,16 @@ class Card:
             self.rank == other.rank and self.suit < other.suit
         )
 
-def all():
+def all(hand_size):
     return [
-        Card(*card)
-        for card
+        Card(suit, rank)
+        for suit, rank
         in itertools.product(Suit, Rank)
+        if rank != hand_size
     ]
 
-def all_except(hand):
-    return set(all()).difference(hand)
+def all_except(hand_size, hand):
+    return set(all(hand_size)).difference(hand)
 
 def sort(hand):
     return sorted(hand)

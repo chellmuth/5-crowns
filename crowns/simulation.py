@@ -6,7 +6,12 @@ import crowns.scoring as scoring
 from crowns.cards import Card
 
 def simulate(hand: Set[Card], wilds: int):
-    draws = cards.sort(cards.all_except(hand))
+    unsorted = cards.all_except(
+        hand_size=len(hand) + wilds,
+        hand=hand
+    )
+
+    draws = cards.sort(unsorted)
 
     scenarios = []
     for draw in draws:

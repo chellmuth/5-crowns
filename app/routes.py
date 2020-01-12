@@ -37,9 +37,9 @@ def card_to_fragment(card):
 
 @app.route('/')
 def hello_world():
-    hand_size = 3
-    wilds = 2
-    hand = dealer.deal(hand_size - wilds)
+    hand_size = 4
+    wilds = 1
+    hand = dealer.deal(hand_size, hand_size - wilds)
 
     current_score = scoring.find_best_configuration(hand, wilds).score
 
