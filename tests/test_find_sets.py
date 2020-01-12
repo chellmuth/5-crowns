@@ -2,17 +2,7 @@ import unittest
 
 from crowns.scoring.match import Match
 from crowns.scoring.sets import find_sets
-from crowns.cards import Card, Suit, Rank
-
-H3 = Card(Suit.Hearts, Rank.Three)
-C3 = Card(Suit.Clubs, Rank.Three)
-S3 = Card(Suit.Spades, Rank.Three)
-
-S4 = Card(Suit.Spades, Rank.Four)
-C4 = Card(Suit.Clubs, Rank.Four)
-
-S5 = Card(Suit.Spades, Rank.Five)
-C5 = Card(Suit.Clubs, Rank.Five)
+from tests.test_helpers import *
 
 class TestFindSets_size_three__basic_matches(unittest.TestCase):
     def test_no_wilds(self):
