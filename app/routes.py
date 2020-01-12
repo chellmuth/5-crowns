@@ -37,7 +37,7 @@ def card_to_fragment(card):
 
 @app.route('/')
 def hello_world():
-    hand_size = 4
+    hand_size = 7
     wilds = 1
     hand = dealer.deal(hand_size, hand_size - wilds)
 
