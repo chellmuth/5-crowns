@@ -36,8 +36,8 @@ def find_best_configuration(hand: Set[Card], wilds: int) -> HandConfiguration:
     for card in hand:
         rest = hand.difference([card])
 
-        for size in range(3, len(rest) + 2):
-            for wild in range(wilds + 1):
+        for wild in range(wilds + 1):
+            for size in range(3, len(rest) + wild + 2):
                 set_matches = find_sets(card, rest, wild, size)
                 match_queue.extend(set_matches)
 

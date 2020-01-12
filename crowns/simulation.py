@@ -5,15 +5,15 @@ import crowns.decision as decision
 import crowns.scoring as scoring
 from crowns.cards import Card
 
-def simulate(hand: Set[Card]):
+def simulate(hand: Set[Card], wilds: int):
     draws = cards.sort(cards.all_except(hand))
 
     scenarios = []
     for draw in draws:
         temp_hand = hand.union([draw])
-        discard = decision.choose_discard(temp_hand, 0)
+        discard = decision.choose_discard(temp_hand, wilds)
         scoring_hand = temp_hand.difference([discard])
-        score = scoring.find_best_configuration(scoring_hand, 0).score
+        score = scoring.find_best_configuration(scoring_hand, wilds).score
 
         scenarios.append((draw, scoring_hand, score))
 

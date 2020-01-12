@@ -17,6 +17,7 @@
     {% for card in game["hand"] %}
         {{ card | safe }}
     {% endfor %}
+    [ wilds: {{ game["wilds"] }} ]
     => {{ game["current_score"] }}
 </p>
 <p>

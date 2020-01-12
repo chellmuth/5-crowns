@@ -37,16 +37,20 @@ def card_to_fragment(card):
 
 @app.route('/')
 def hello_world():
-    hand = dealer.deal(10)
-    current_score = scoring.find_best_configuration(hand, 0).score
+    hand_size = 3
+    wilds = 2
+    hand = dealer.deal(hand_size - wilds)
 
-    simulated = simulation.simulate(hand)
+    current_score = scoring.find_best_configuration(hand, wilds).score
+
+    simulated = simulation.simulate(hand, wilds)
 
     game = {
         "hand": [
             card_to_fragment(card)
             for card in cards.sort(hand)
         ],
+        "wilds": wilds,
         "scenarios": [
             (
                 card_to_fragment(draw),
