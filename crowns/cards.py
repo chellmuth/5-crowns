@@ -1,3 +1,4 @@
+import itertools
 from dataclasses import dataclass
 from enum import IntEnum
 from typing import List
@@ -32,3 +33,13 @@ class Card:
 
     def __repr__(self):
         return f"({self.suit}, {self.rank})"
+
+def all():
+    return [
+        Card(*card)
+        for card
+        in itertools.product(Suit, Rank)
+    ]
+
+def all_except(hand):
+    return set(all()).difference(hand)

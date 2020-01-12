@@ -1,14 +1,10 @@
-import itertools
 import random
 
+import crowns.cards as cards
 from crowns.cards import Card, Rank, Suit
 
 def init_deck():
-    unshuffled = [
-        Card(*card)
-        for card
-        in itertools.product(Suit, Rank)
-    ]
+    unshuffled = cards.all()
 
     return unshuffled
 
@@ -19,4 +15,4 @@ def deal(count):
     deck = init_deck()
     shuffle(deck)
 
-    return deck[:count]
+    return set(deck[:count])
