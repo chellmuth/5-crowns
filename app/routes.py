@@ -5,6 +5,7 @@ import crowns.cards as cards
 import crowns.decision as decision
 import crowns.game.dealer as dealer
 import crowns.scoring as scoring
+import crowns.simulation as simulation
 from crowns.cards import Rank, Suit
 
 from app import app
@@ -39,19 +40,7 @@ def hello_world():
     hand = dealer.deal(3)
     current_score = scoring.find_best_configuration(hand, 0).score
 
-    draws = cards.all_except(hand)
-
-    scenarios = []
-    for draw in draws:
-        temp_hand = hand.union([draw])
-        discard = decision.choose_discard(temp_hand, 0)
-        scoring_hand = temp_hand.difference([discard])
-        score = scoring.find_best_configuration(scoring_hand, 0).score
-
-        scenarios.append((draw, scoring_hand, score))
-
-
-    old_result = str(hand) + " " + str(score) + " " + str(scenarios)
+    simulated = simulation.simulate(hand)
 
     game = {
         "hand": [
@@ -68,8 +57,9 @@ def hello_world():
                 score
             )
             for draw, scoring_hand, score
-            in scenarios
+            in simulated["scenarios"]
         ],
+        "expected_score": simulated["expected_score"],
         "current_score": current_score
     }
 

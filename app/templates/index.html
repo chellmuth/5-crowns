@@ -6,7 +6,7 @@
     => {{ game["current_score"] }}
 </p>
 <p>
-   Scenarios:
+   Scenarios (expected score: {{ game["expected_score"] }}):
    <ul>
        {% for draw, hand, score in game["scenarios"] %}
            <li>
