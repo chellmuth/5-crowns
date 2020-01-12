@@ -3,6 +3,8 @@ from crowns.scoring.match import Match
 import itertools
 
 def find_sets(base, hand, wilds, size):
+    if wilds >= size: return []
+
     same_ranks = []
 
     for card in hand:

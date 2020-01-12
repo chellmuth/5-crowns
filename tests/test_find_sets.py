@@ -12,7 +12,7 @@ class TestFindSets_size_three(unittest.TestCase):
     def test_find_three__no_wilds(self):
         hand = [H3, C3]
 
-        matches = find_sets(S3, hand, 0, 3)
+        matches = find_sets(S3, hand, wilds=0, size=3)
 
         self.assertEqual(
             matches,
@@ -24,7 +24,7 @@ class TestFindSets_size_three(unittest.TestCase):
     def test_one_card_two_wilds(self):
         hand = set([H3, C3])
 
-        matches = find_sets(S3, hand, 2, 3)
+        matches = find_sets(S3, hand, wilds=2, size=3)
 
         self.assertEqual(
             matches,
@@ -36,7 +36,7 @@ class TestFindSets_size_three(unittest.TestCase):
     def test_two_options__one_wild(self):
         hand = set([H3, C3])
 
-        matches = find_sets(S3, hand, 1, 3)
+        matches = find_sets(S3, hand, wilds=1, size=3)
 
         self.assertEqual(
             matches,
@@ -45,7 +45,13 @@ class TestFindSets_size_three(unittest.TestCase):
                 Match(set([S3, C3]), set([H3]), 1)
             ]
         )
-        
+
+    def test_empty_with_too_many_wilds(self):
+        hand = set([H3, C3])
+
+        matches = find_sets(S3, hand, wilds=3, size=3)
+
+        self.assertEqual(matches, [])
 
 if __name__ == '__main__':
     unittest.main()
