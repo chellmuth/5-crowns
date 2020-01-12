@@ -3,6 +3,7 @@ from typing import List, Set
 
 from crowns.cards import Card
 from crowns.scoring.match import Match
+from crowns.scoring.runs import find_runs
 from crowns.scoring.sets import find_sets
 
 @dataclass
@@ -36,8 +37,11 @@ def find_best_configuration(hand: Set[Card]) -> HandConfiguration:
         rest = hand.difference([card])
 
         for size in range(3, len(rest) + 2):
-            matches = find_sets(card, rest, wilds=0, size=size)
-            match_queue.extend(matches)
+            set_matches = find_sets(card, rest, wilds=0, size=size)
+            match_queue.extend(set_matches)
+
+            run_matches = find_runs(card, rest, wilds=0, size=size)
+            match_queue.extend(run_matches)
 
     if not match_queue:
         return HandConfiguration(score(hand))

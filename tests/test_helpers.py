@@ -12,3 +12,8 @@ D4 = Card(Suit.Diamonds, Rank.Four)
 
 S5 = Card(Suit.Spades, Rank.Five)
 C5 = Card(Suit.Clubs, Rank.Five)
+
+H6 = Card(Suit.Hearts, Rank.Six)
+C6 = Card(Suit.Clubs, Rank.Six)
+S6 = Card(Suit.Spades, Rank.Six)
+D6 = Card(Suit.Diamonds, Rank.Six)
