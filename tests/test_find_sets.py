@@ -9,7 +9,10 @@ C3 = Card(Suit.Clubs, Rank.Three)
 S3 = Card(Suit.Spades, Rank.Three)
 
 S4 = Card(Suit.Spades, Rank.Four)
+C4 = Card(Suit.Clubs, Rank.Four)
+
 S5 = Card(Suit.Spades, Rank.Five)
+C5 = Card(Suit.Clubs, Rank.Five)
 
 class TestFindSets_size_three__basic_matches(unittest.TestCase):
     def test_no_wilds(self):
@@ -83,3 +86,49 @@ class TestFindSets_size_three__basic_different_ranks(unittest.TestCase):
             ]
         )
 
+class TestFindSets_size_three__basic_one_pair(unittest.TestCase):
+    def test_no_wilds(self):
+        matches = find_sets(S3, set([C3, C4]), wilds=0, size=3)
+
+        self.assertEqual(matches, [])
+
+    def test_one_wild(self):
+        matches = find_sets(S3, set([C3, C4]), wilds=1, size=3)
+
+        self.assertEqual(
+            matches,
+            [
+                Match(set([S3, C3]), set([C4]), 1)
+            ]
+        )
+
+    def test_two_wilds(self):
+        matches = find_sets(S3, set([C3, C4]), wilds=2, size=3)
+
+        self.assertEqual(
+            matches,
+            [
+                Match(set([S3]), set([C3, C4]), 2)
+            ]
+        )
+
+class TestFindSets_size_three__basic_one_pair_off(unittest.TestCase):
+    def test_no_wilds(self):
+        matches = find_sets(C3, set([C4, S4]), wilds=0, size=3)
+
+        self.assertEqual(matches, [])
+
+    def test_one_wild(self):
+        matches = find_sets(C3, set([C4, S4]), wilds=1, size=3)
+
+        self.assertEqual(matches, [])
+
+    def test_two_wilds(self):
+        matches = find_sets(C3, set([C4, S4]), wilds=2, size=3)
+
+        self.assertEqual(
+            matches,
+            [
+                Match(set([C3]), set([C4, S4]), 2)
+            ]
+        )
