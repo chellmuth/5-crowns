@@ -1,0 +1,17 @@
+<p>
+    Hand:
+    {% for card in game["hand"] %}
+        {{ card | safe }}
+    {% endfor %}
+    => {{ game["current_score"] }}
+</p>
+<p>
+   Scenarios:
+   <ul>
+       {% for draw, hand, score in game["scenarios"] %}
+           <li>
+               {{ draw | safe }} : {{ hand | safe }} => {{ score }}
+           </li>
+       {% endfor %}
+    </ul>
+</p>
