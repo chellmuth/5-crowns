@@ -37,11 +37,12 @@ def find_best_configuration(hand: Set[Card], wilds: int) -> HandConfiguration:
         rest = hand.difference([card])
 
         for size in range(3, len(rest) + 2):
-            set_matches = find_sets(card, rest, wilds=0, size=size)
-            match_queue.extend(set_matches)
+            for wild in range(wilds + 1):
+                set_matches = find_sets(card, rest, wild, size)
+                match_queue.extend(set_matches)
 
-            run_matches = find_runs(card, rest, wilds=0, size=size)
-            match_queue.extend(run_matches)
+                run_matches = find_runs(card, rest, wild, size)
+                match_queue.extend(run_matches)
 
     if not match_queue:
         return HandConfiguration(score(hand))
@@ -49,7 +50,7 @@ def find_best_configuration(hand: Set[Card], wilds: int) -> HandConfiguration:
     for match in match_queue:
         best_configuration = _update_best_configuration(
             best_configuration,
-            find_best_configuration(match.hand, 0)
+            find_best_configuration(match.hand, wilds - match.wilds)
         )
 
     return best_configuration

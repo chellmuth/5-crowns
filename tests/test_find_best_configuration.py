@@ -49,3 +49,13 @@ class TestBestConfiguration_sets_and_runs__no_wilds(unittest.TestCase):
     def test_set_better_than_run(self):
         best = find_best_configuration(set([S4, S5, S6, C6, H6]), 0)
         self.assertEqual(best.score, 9)
+
+
+class TestBestConfiguration_basic_wilds(unittest.TestCase):
+    def test_run_better_than_set(self):
+        best = find_best_configuration(set([H3, C3, S4, S5]), 1)
+        self.assertEqual(best.score, 6)
+
+    def test_set_better_than_run(self):
+        best = find_best_configuration(set([S4, S5, C6, H6]), 1)
+        self.assertEqual(best.score, 9)
