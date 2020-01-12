@@ -27,7 +27,7 @@ def _update_best_configuration(
 
     return current_best
 
-def find_best_configuration(hand: Set[Card]) -> HandConfiguration:
+def find_best_configuration(hand: Set[Card], wilds: int) -> HandConfiguration:
     if not hand: return HandConfiguration(0)
 
     best_configuration = None
@@ -49,7 +49,7 @@ def find_best_configuration(hand: Set[Card]) -> HandConfiguration:
     for match in match_queue:
         best_configuration = _update_best_configuration(
             best_configuration,
-            find_best_configuration(match.hand)
+            find_best_configuration(match.hand, 0)
         )
 
     return best_configuration
