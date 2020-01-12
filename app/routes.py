@@ -26,18 +26,18 @@ def card_to_fragment(card):
     }
 
     suits = {
-        Suit.Spades: "&spades;",
-        Suit.Hearts: "&hearts;",
-        Suit.Clubs: "&clubs;",
-        Suit.Diamonds: "&diams;",
-        Suit.Stars: "&#9733;",
+        Suit.Spades: '<span class="spades">&spades;</span>',
+        Suit.Hearts: '<span class="hearts">&hearts;</span>',
+        Suit.Clubs: '<span class="clubs">&clubs;</span>',
+        Suit.Diamonds: '<span class="diamonds">&diams;</span>',
+        Suit.Stars: '<span class="stars">&#9733;</span>',
     }
 
     return f"{ranks[card.rank]}{suits[card.suit]}"
 
 @app.route('/')
 def hello_world():
-    hand = dealer.deal(3)
+    hand = dealer.deal(10)
     current_score = scoring.find_best_configuration(hand, 0).score
 
     simulated = simulation.simulate(hand)
@@ -45,14 +45,14 @@ def hello_world():
     game = {
         "hand": [
             card_to_fragment(card)
-            for card in hand
+            for card in cards.sort(hand)
         ],
         "scenarios": [
             (
                 card_to_fragment(draw),
                 [
                     card_to_fragment(card)
-                    for card in scoring_hand
+                    for card in cards.sort(scoring_hand)
                 ],
                 score
             )

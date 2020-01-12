@@ -34,6 +34,12 @@ class Card:
     def __repr__(self):
         return f"({self.suit}, {self.rank})"
 
+    # todo: change definition order and use order=True
+    def __lt__(self, other):
+        return self.rank < other.rank or (
+            self.rank == other.rank and self.suit < other.suit
+        )
+
 def all():
     return [
         Card(*card)
@@ -43,3 +49,6 @@ def all():
 
 def all_except(hand):
     return set(all()).difference(hand)
+
+def sort(hand):
+    return sorted(hand)
