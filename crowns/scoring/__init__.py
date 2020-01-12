@@ -31,18 +31,22 @@ def find_best_configuration(hand: Set[Card]) -> HandConfiguration:
 
     best_configuration = None
 
+    match_queue = []
     for card in hand:
         rest = hand.difference([card])
 
-        matches = find_sets(card, rest, wilds=0, size=3)
-        if not matches:
-            return HandConfiguration(score(hand))
+        for size in range(3, len(rest) + 2):
+            matches = find_sets(card, rest, wilds=0, size=size)
+            match_queue.extend(matches)
 
-        for match in matches:
-            best_configuration = _update_best_configuration(
-                best_configuration,
-                find_best_configuration(match.hand)
-            )
+    if not match_queue:
+        return HandConfiguration(score(hand))
+
+    for match in match_queue:
+        best_configuration = _update_best_configuration(
+            best_configuration,
+            find_best_configuration(match.hand)
+        )
 
     return best_configuration
 
