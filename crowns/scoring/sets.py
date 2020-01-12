@@ -1,8 +1,10 @@
+import itertools
+from typing import Set
+
+from crowns.cards import Card
 from crowns.scoring.match import Match
 
-import itertools
-
-def find_sets(base, hand, wilds, size):
+def find_sets(base: Card, hand: Set[Card], wilds: int, size: int):
     if wilds >= size: return []
 
     same_ranks = []
