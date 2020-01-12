@@ -26,6 +26,7 @@ class TestBestConfiguration_size_four__sets__no_wilds(unittest.TestCase):
         best = find_best_configuration(set([H3, C3, S4, C4]))
         self.assertEqual(best.score, 14)
 
+
 class TestBestConfiguration_two_sets__no_wilds(unittest.TestCase):
     def test_two_sets_of_three(self):
         best = find_best_configuration(set([H3, C3, S3, H4, C4, S4]))
