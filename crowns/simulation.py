@@ -1,4 +1,3 @@
-from collections import defaultdict
 from typing import Set
 
 import crowns.cards as cards
@@ -36,10 +35,9 @@ def simulate(hand: Set[Card], wilds: int):
         + wild_score * wilds_remaining
     ) / (len(scenarios) + wilds_remaining)
 
-    scores = defaultdict(int)
-    scores[wild_score] += wilds_remaining
+    scores = [wild_score] * wilds_remaining
     for _, configuration in scenarios:
-        scores[configuration.score] += 1
+        scores.append(configuration.score)
 
     return {
         "scenarios": scenarios,

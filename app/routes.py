@@ -50,6 +50,23 @@ def configuration_view(configuration):
         "remaining": [ card_to_fragment(card) for card in configuration.remaining ]
     }
 
+def build_histogram(scores):
+    import matplotlib.pyplot as plt
+    fig = plt.figure()
+
+    ax = fig.add_subplot(111, facecolor="#EEEEEE")
+    ax.grid()
+
+    ax.hist(scores, 30, fc='lightblue');
+
+    from io import BytesIO
+    figfile = BytesIO()
+    plt.savefig(figfile, format='png')
+    figfile.seek(0)  # rewind to beginning of file
+
+    import base64
+    figdata_png = base64.b64encode(figfile.getvalue())
+    return figdata_png
 
 @app.route('/')
 def hello_world():
@@ -79,8 +96,8 @@ def hello_world():
         "wild_configuration": configuration_view(simulated["wild_configuration"]),
         "expected_score": simulated["expected_score"],
         "current_configuration": configuration_view(current_configuration),
-        "current_score": current_configuration.score,
         "scores": simulated["scores"],
+        "chart_embed": build_histogram(simulated["scores"]).decode('utf8')
     }
 
     return render_template('index.html', title='Five Crowns: Hand Analyzer', game=game)

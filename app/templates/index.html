@@ -18,7 +18,6 @@
         {{ card | safe }}
     {% endfor %}
     [ wilds: {{ game["wilds"] }} ]
-    => {{ game["current_score"] }}
 </p>
 <p>
     {% with configuration = game["current_configuration"] %}
@@ -26,7 +25,14 @@
     {% endwith %}
 </p>
 <p>
-   Scenarios (expected score: {{ game["expected_score"] }}):
+    Expected score: {{ game["expected_score"] }}
+</p>
+<p>
+    Chart:
+    <img src="data:image/png;base64,{{ game["chart_embed"] }}"\>
+</p>
+<p>
+   Scenarios:
    <ul>
        <li>
            * :
@@ -42,9 +48,5 @@
            </li>
        {% endfor %}
     </ul>
-</p>
-<p>
-    Scores:
-    {{ game["scores"] }}
 </p>
 </body>
