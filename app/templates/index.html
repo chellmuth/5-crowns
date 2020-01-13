@@ -21,7 +21,7 @@
     => {{ game["current_score"] }}
 </p>
 <p>
-    {% for match in game["current_matches"] %}
+    {% for match in game["current_configuration"]["matches"] %}
         [
         {% for card in match %}
             {{ card | safe }}
@@ -29,7 +29,7 @@
         ]
     {% endfor %}
     (
-    {% for card in game["current_hand"] %}
+    {% for card in game["current_configuration"]["remaining"] %}
         {{ card | safe }}
     {% endfor %}
     )
@@ -40,9 +40,24 @@
        <li>
            * : {{ game["wild_scoring_hand"] | safe }} => {{ game["wild_score"] }}
        </li>
-       {% for draw, hand, score in game["scenarios"] %}
+       {% for draw, configuration, score in game["scenarios"] %}
            <li>
-               {{ draw | safe }} : {{ hand | safe }} => {{ score }}
+               {{ draw | safe }} :
+
+               {% for match in configuration["matches"] %}
+                   [
+                   {% for card in match %}
+                       {{ card | safe }}
+                   {% endfor %}
+                   ]
+               {% endfor %}
+               (
+               {% for card in configuration["remaining"] %}
+                   {{ card | safe }}
+               {% endfor %}
+               )
+
+               => {{ score }}
            </li>
        {% endfor %}
     </ul>

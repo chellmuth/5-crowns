@@ -20,9 +20,9 @@ def simulate(hand: Set[Card], wilds: int):
         temp_hand = hand.union([draw])
         discard = decision.choose_discard(temp_hand, wilds)
         scoring_hand = temp_hand.difference([discard])
-        score = scoring.find_best_configuration(scoring_hand, wilds).score
+        configuration = scoring.find_best_configuration(scoring_hand, wilds)
 
-        scenarios.append((draw, scoring_hand, score))
+        scenarios.append((draw, configuration))
 
     wild_discard = decision.choose_discard(hand, wilds + 1)
     wild_scoring_hand = hand.difference([wild_discard])
@@ -30,10 +30,9 @@ def simulate(hand: Set[Card], wilds: int):
 
     wilds_remaining = TotalWilds - wilds
     expected_score = (
-        sum(scenario[2] for scenario in scenarios)
+        sum(scenario[1].score for scenario in scenarios)
         + wild_score * wilds_remaining
     ) / (len(scenarios) + wilds_remaining)
-
 
     return {
         "scenarios": scenarios,

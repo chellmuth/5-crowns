@@ -37,6 +37,20 @@ def card_to_fragment(card):
 
     return f"{ranks[card.rank]}{suits[card.suit]}"
 
+def configuration_view(configuration):
+    return {
+        "score": configuration.score,
+        "matches": [
+            [
+                card_to_fragment(card)
+                for card in cards.sort(match.cards)
+            ] + [ "*" for _ in range(match.wilds) ]
+            for match in configuration.matches
+        ],
+        "remaining": [ card_to_fragment(card) for card in configuration.matches[-1].hand ]
+    }
+
+
 @app.route('/')
 def hello_world():
     hand_size = 7
@@ -56,13 +70,10 @@ def hello_world():
         "scenarios": [
             (
                 card_to_fragment(draw),
-                [
-                    card_to_fragment(card)
-                    for card in cards.sort(scoring_hand)
-                ],
-                score
+                configuration_view(configuration),
+                configuration.score
             )
-            for draw, scoring_hand, score
+            for draw, configuration
             in simulated["scenarios"]
         ],
         "wild_scoring_hand": [
@@ -71,15 +82,8 @@ def hello_world():
         ],
         "wild_score": simulated["wild_score"],
         "expected_score": simulated["expected_score"],
+        "current_configuration": configuration_view(current_configuration),
         "current_score": current_configuration.score,
-        "current_matches": [
-            [
-                card_to_fragment(card)
-                for card in match.cards
-            ] + [ "*" for _ in range(match.wilds) ]
-            for match in current_configuration.matches
-        ],
-        "current_hand": [ card_to_fragment(card) for card in current_configuration.matches[-1].hand ]
     }
 
     return render_template('index.html', title='Five Crowns: Hand Analyzer', game=game)
