@@ -54,7 +54,7 @@ def configuration_view(configuration):
 @app.route('/')
 def hello_world():
     hand_size = 6
-    wilds = 2
+    wilds = 1
     hand = dealer.deal(hand_size, hand_size - wilds)
 
     current_configuration = scoring.find_best_configuration(hand, wilds)
@@ -76,11 +76,7 @@ def hello_world():
             for draw, configuration
             in simulated["scenarios"]
         ],
-        "wild_scoring_hand": [
-            card_to_fragment(card)
-            for card in cards.sort(simulated["wild_scoring_hand"])
-        ],
-        "wild_score": simulated["wild_score"],
+        "wild_configuration": configuration_view(simulated["wild_configuration"]),
         "expected_score": simulated["expected_score"],
         "current_configuration": configuration_view(current_configuration),
         "current_score": current_configuration.score,

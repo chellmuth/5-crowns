@@ -26,7 +26,8 @@ def simulate(hand: Set[Card], wilds: int):
 
     wild_discard = decision.choose_discard(hand, wilds + 1)
     wild_scoring_hand = hand.difference([wild_discard])
-    wild_score = scoring.find_best_configuration(wild_scoring_hand, wilds + 1).score
+    wild_configuration = scoring.find_best_configuration(wild_scoring_hand, wilds + 1)
+    wild_score = wild_configuration.score
 
     wilds_remaining = TotalWilds - wilds
     expected_score = (
@@ -37,6 +38,5 @@ def simulate(hand: Set[Card], wilds: int):
     return {
         "scenarios": scenarios,
         "expected_score": expected_score,
-        "wild_scoring_hand": wild_scoring_hand,
-        "wild_score": wild_score,
+        "wild_configuration": wild_configuration,
     }
