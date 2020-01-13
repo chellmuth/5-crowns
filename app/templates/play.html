@@ -25,17 +25,20 @@
     {% endif %}
 </p>
 <form id="play-form" action="/play" method="POST">
-    {% for card in game["hand"] %}
-        <button
-            name="move"
-            value="discard-{{loop.index - 1}}"
-            type="submit"
-            form="play-form"
-        >
-            Discard {{ card | safe }}
-        </button>
-    {% endfor %}
-    <button type="submit" name="move" value="draw">Draw!</button>
-    <button type="submit" name="move" value="take">Take {{ game["discard_top"] | safe}}!</button>
+    {% if game["state"] == "discard" %}
+        {% for card in game["hand"] %}
+            <button
+                name="move"
+                value="discard-{{loop.index - 1}}"
+                type="submit"
+                form="play-form"
+            >
+                Discard {{ card | safe }}
+            </button>
+        {% endfor %}
+    {% elif game["state"] == "draw" %}
+        <button type="submit" name="move" value="draw">Draw!</button>
+        <button type="submit" name="move" value="take">Take {{ game["discard_top"] | safe}}!</button>
+    {% endif %}
 </form>
 </body>

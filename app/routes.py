@@ -115,6 +115,7 @@ def hello_world():
 
 class Game:
     def __init__(self, hand_size):
+        self.state = "draw"
         self.hand_size = hand_size
         self.dealer = Dealer(hand_size)
         self.hand = cards.sort(self.dealer.deal())
@@ -126,14 +127,20 @@ class Game:
         self.hand = cards.sort(self.hand)
         self.wilds = (self.hand_size + 1) - len(self.hand)
 
+        self.state = "discard"
+
     def discard(self, index):
         self.hand.pop(index)
         self.out = self._check_out()
         self.dealer.fake_discard()
 
+        self.state = "draw"
+
     def take_discard(self):
         self.hand.append(self.discard_top)
         self.hand = cards.sort(self.hand)
+
+        self.state = "discard"
 
     def _check_out(self):
         configuration = scoring.find_best_configuration(
@@ -150,6 +157,7 @@ current_game = Game(3)
 
 def render_game(game):
     game_view = {
+        "state": game.state,
         "hand": [
             card_to_fragment(card)
             for card in cards.sort(game.hand)
