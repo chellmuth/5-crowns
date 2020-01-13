@@ -113,22 +113,42 @@ def hello_world():
 
     return render_template('index.html', game=game)
 
-@app.route("/play")
-def play():
-    hand_size = 6
 
-    dealer = Dealer(hand_size)
-    hand = dealer.deal()
+class Game:
+    def __init__(self, hand_size):
+        self.hand_size = hand_size
+        self.dealer = Dealer(hand_size)
+        self.hand = self.dealer.deal()
+        self.wilds = self.hand_size - len(self.hand)
 
-    game = {
+    def draw(self):
+        self.dealer.draw(self.hand)
+        self.wilds = (self.hand_size + 1) - len(self.hand)
+
+current_game = Game(3)
+
+def render_game(game):
+    game_view = {
         "hand": [
             card_to_fragment(card)
-            for card in cards.sort(hand)
+            for card in cards.sort(game.hand)
         ],
-        "wilds": hand_size - len(hand),
+        "wilds": game.wilds
     }
 
-    return render_template("play.html", game=game)
+    return render_template("play.html", game=game_view)
+
+@app.route("/play", methods=["GET"])
+def play():
+    global current_game
+    return render_game(current_game)
+
+@app.route("/play", methods=["POST"])
+def make_move():
+    global current_game
+    current_game.draw()
+
+    return render_game(current_game)
 
 if __name__ == '__main__':
     app.run()

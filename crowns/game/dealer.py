@@ -13,3 +13,8 @@ class Dealer:
 
     def deal(self):
         return set(self.deck.deal())
+
+    def draw(self, hand):
+        drawn = self.deck.draw()
+        if drawn:
+            hand.add(drawn)
