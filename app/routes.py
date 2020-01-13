@@ -131,6 +131,10 @@ class Game:
         self.out = self._check_out()
         self.dealer.fake_discard()
 
+    def take_discard(self):
+        self.hand.append(self.discard_top)
+        self.hand = cards.sort(self.hand)
+
     def _check_out(self):
         configuration = scoring.find_best_configuration(
             set(self.hand),
@@ -173,6 +177,8 @@ def make_move():
         verb, index_str = move.split("-")
         index = int(index_str)
         current_game.discard(index)
+    elif move == "take":
+        current_game.take_discard()
 
     return render_game(current_game)
 
