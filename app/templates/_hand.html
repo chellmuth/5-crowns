@@ -1,0 +1,7 @@
+<p>
+    Hand:
+    {% for card in game["hand"] %}
+        {{ card | safe }}
+    {% endfor %}
+    [ wilds: {{ game["wilds"] }} ]
+</p>

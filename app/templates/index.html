@@ -12,13 +12,7 @@
     </style>
 </head>
 <body>
-<p>
-    Hand:
-    {% for card in game["hand"] %}
-        {{ card | safe }}
-    {% endfor %}
-    [ wilds: {{ game["wilds"] }} ]
-</p>
+{% include "_hand.html" %}
 <p>
     {% with configuration = game["current_configuration"] %}
         {% include "_configuration.html" %}

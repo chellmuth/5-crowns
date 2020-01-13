@@ -117,10 +117,18 @@ def hello_world():
 def play():
     hand_size = 6
 
-    deck = dealer.init_deck(hand_size)
-    hand = dealer.deal(hand_size, hand_size - wilds)
+    dealer = Dealer(hand_size)
+    hand = dealer.deal()
 
-    return render_template("play.html")
+    game = {
+        "hand": [
+            card_to_fragment(card)
+            for card in cards.sort(hand)
+        ],
+        "wilds": hand_size - len(hand),
+    }
+
+    return render_template("play.html", game=game)
 
 if __name__ == '__main__':
     app.run()
