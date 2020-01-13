@@ -52,12 +52,21 @@ def configuration_view(configuration):
 
 def build_histogram(scores):
     import matplotlib.pyplot as plt
+
     fig = plt.figure()
 
-    ax = fig.add_subplot(111, facecolor="#EEEEEE")
-    ax.grid()
+    ax = fig.add_subplot(111, facecolor="white")
+    ax.hist(
+        scores,
+        density=True,
+        histtype='stepfilled',
+        fc='lightblue',
+        edgecolor="darkblue",
+        alpha=1.
+    )
 
-    ax.hist(scores, 30, fc='lightblue');
+    ax.grid(True, color="#cccccc", linestyle="dashed")
+    ax.set_axisbelow(True)
 
     from io import BytesIO
     figfile = BytesIO()
