@@ -21,6 +21,20 @@
     => {{ game["current_score"] }}
 </p>
 <p>
+    {% for match in game["current_matches"] %}
+        [
+        {% for card in match %}
+            {{ card | safe }}
+        {% endfor %}
+        ]
+    {% endfor %}
+    (
+    {% for card in game["current_hand"] %}
+        {{ card | safe }}
+    {% endfor %}
+    )
+</p>
+<p>
    Scenarios (expected score: {{ game["expected_score"] }}):
    <ul>
        <li>
