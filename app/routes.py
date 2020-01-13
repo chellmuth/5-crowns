@@ -53,7 +53,7 @@ def configuration_view(configuration):
 
 @app.route('/')
 def hello_world():
-    hand_size = 7
+    hand_size = 6
     wilds = 2
     hand = dealer.deal(hand_size, hand_size - wilds)
 

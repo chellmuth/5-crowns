@@ -21,18 +21,9 @@
     => {{ game["current_score"] }}
 </p>
 <p>
-    {% for match in game["current_configuration"]["matches"] %}
-        [
-        {% for card in match %}
-            {{ card | safe }}
-        {% endfor %}
-        ]
-    {% endfor %}
-    (
-    {% for card in game["current_configuration"]["remaining"] %}
-        {{ card | safe }}
-    {% endfor %}
-    )
+    {% with configuration = game["current_configuration"] %}
+        {% include "_configuration.html" %}
+    {% endwith %}
 </p>
 <p>
    Scenarios (expected score: {{ game["expected_score"] }}):
@@ -44,20 +35,7 @@
            <li>
                {{ draw | safe }} :
 
-               {% for match in configuration["matches"] %}
-                   [
-                   {% for card in match %}
-                       {{ card | safe }}
-                   {% endfor %}
-                   ]
-               {% endfor %}
-               (
-               {% for card in configuration["remaining"] %}
-                   {{ card | safe }}
-               {% endfor %}
-               )
-
-               => {{ score }}
+               {% include "_configuration.html" %}
            </li>
        {% endfor %}
     </ul>

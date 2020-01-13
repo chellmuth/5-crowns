@@ -1,0 +1,14 @@
+{% for match in configuration["matches"] %}
+    [
+    {% for card in match %}
+        {{ card | safe }}
+    {% endfor %}
+    ]
+{% endfor %}
+(
+{% for card in configuration["remaining"] %}
+    {{ card | safe }}
+{% endfor %}
+)
+
+=> {{ configuration.score }}
