@@ -39,6 +39,8 @@
     {% elif game["state"] == "draw" %}
         <button type="submit" name="move" value="draw">Draw!</button>
         <button type="submit" name="move" value="take">Take {{ game["discard_top"] | safe}}!</button>
+    {% elif game["state"] == "reset" %}
+        <button type="submit" name="move" value="reset">Continue!</button>
     {% endif %}
 </form>
 </body>
