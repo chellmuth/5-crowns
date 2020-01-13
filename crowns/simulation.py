@@ -1,3 +1,4 @@
+from collections import defaultdict
 from typing import Set
 
 import crowns.cards as cards
@@ -5,7 +6,7 @@ import crowns.decision as decision
 import crowns.scoring as scoring
 from crowns.cards import Card
 
-TotalWilds = 16 / 2
+TotalWilds = int(16 / 2)
 
 def simulate(hand: Set[Card], wilds: int):
     unsorted = cards.all_except(
@@ -35,8 +36,14 @@ def simulate(hand: Set[Card], wilds: int):
         + wild_score * wilds_remaining
     ) / (len(scenarios) + wilds_remaining)
 
+    scores = defaultdict(int)
+    scores[wild_score] += wilds_remaining
+    for _, configuration in scenarios:
+        scores[configuration.score] += 1
+
     return {
         "scenarios": scenarios,
         "expected_score": expected_score,
         "wild_configuration": wild_configuration,
+        "scores": scores,
     }

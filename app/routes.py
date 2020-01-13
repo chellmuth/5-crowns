@@ -53,8 +53,8 @@ def configuration_view(configuration):
 
 @app.route('/')
 def hello_world():
-    hand_size = 3
-    wilds = 0
+    hand_size = 6
+    wilds = 1
     hand = dealer.deal(hand_size, hand_size - wilds)
 
     current_configuration = scoring.find_best_configuration(hand, wilds)
@@ -80,6 +80,7 @@ def hello_world():
         "expected_score": simulated["expected_score"],
         "current_configuration": configuration_view(current_configuration),
         "current_score": current_configuration.score,
+        "scores": simulated["scores"],
     }
 
     return render_template('index.html', title='Five Crowns: Hand Analyzer', game=game)
