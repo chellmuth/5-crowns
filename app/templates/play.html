@@ -13,11 +13,17 @@
 </head>
 <body>
 {% include "_hand.html" %}
-{% if game["out"] %}
-   OUT
-{% else %}
-   Not out
-{% endif %}
+<p>
+    Discard: {{ game["discard_top"] | safe }}
+</p>
+<p>
+    Status:
+    {% if game["out"] %}
+       OUT
+    {% else %}
+       Not out
+    {% endif %}
+</p>
 <form id="play-form" action="/play" method="POST">
     {% for card in game["hand"] %}
         <button

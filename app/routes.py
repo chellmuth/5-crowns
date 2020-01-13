@@ -81,7 +81,7 @@ def hello_world():
     hand_size = 6
     wilds = 1
 
-    dealer = Dealer(hand_size, wilds=False)
+    dealer = Dealer(hand_size, include_wilds=False)
     hand = dealer.deal()
 
     current_configuration = scoring.find_best_configuration(set(hand), wilds)
@@ -129,6 +129,7 @@ class Game:
     def discard(self, index):
         self.hand.pop(index)
         self.out = self._check_out()
+        self.dealer.fake_discard()
 
     def _check_out(self):
         configuration = scoring.find_best_configuration(
@@ -136,6 +137,10 @@ class Game:
             self.wilds
         )
         return configuration.score == 0
+
+    @property
+    def discard_top(self):
+        return self.dealer.discard
 
 current_game = Game(3)
 
@@ -146,7 +151,8 @@ def render_game(game):
             for card in cards.sort(game.hand)
         ],
         "wilds": game.wilds,
-        "out": game.out
+        "out": game.out,
+        "discard_top": card_to_fragment(game.discard_top)
     }
 
     return render_template("play.html", game=game_view)
