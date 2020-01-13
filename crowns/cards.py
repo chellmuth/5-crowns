@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from enum import IntEnum
 from typing import List
 
+TotalWilds = int(16 / 2)
+
 class Suit(IntEnum):
     Spades = 1
     Hearts = 2

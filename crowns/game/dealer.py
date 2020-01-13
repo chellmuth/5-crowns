@@ -1,18 +1,15 @@
 import random
 
-import crowns.cards as cards
-from crowns.cards import Card, Rank, Suit
+import crowns.game.deck as deck
 
-def init_deck(hand_size):
-    unshuffled = cards.all(hand_size)
+class Dealer:
+    def __init__(self, hand_size, wilds=True):
+        self.hand_size = hand_size
 
-    return unshuffled
+        if wilds:
+            self.deck = deck.Deck(self.hand_size)
+        else:
+            self.deck = deck.Deck(self.hand_size, wilds=0)
 
-def shuffle(deck):
-    random.shuffle(deck)
-
-def deal(hand_size, count):
-    deck = init_deck(hand_size)
-    shuffle(deck)
-
-    return set(deck[:count])
+    def deal(self):
+        return set(self.deck.deal())

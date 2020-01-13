@@ -5,8 +5,6 @@ import crowns.decision as decision
 import crowns.scoring as scoring
 from crowns.cards import Card
 
-TotalWilds = int(16 / 2)
-
 def simulate(hand: Set[Card], wilds: int):
     unsorted = cards.all_except(
         hand_size=len(hand) + wilds,
@@ -29,7 +27,7 @@ def simulate(hand: Set[Card], wilds: int):
     wild_configuration = scoring.find_best_configuration(wild_scoring_hand, wilds + 1)
     wild_score = wild_configuration.score
 
-    wilds_remaining = TotalWilds - wilds
+    wilds_remaining = cards.TotalWilds - wilds
     expected_score = (
         sum(scenario[1].score for scenario in scenarios)
         + wild_score * wilds_remaining

@@ -3,10 +3,10 @@ from flask import render_template
 
 import crowns.cards as cards
 import crowns.decision as decision
-import crowns.game.dealer as dealer
 import crowns.scoring as scoring
 import crowns.simulation as simulation
 from crowns.cards import Rank, Suit
+from crowns.game.dealer import Dealer
 
 from app import app
 
@@ -81,7 +81,9 @@ def build_histogram(scores):
 def hello_world():
     hand_size = 6
     wilds = 1
-    hand = dealer.deal(hand_size, hand_size - wilds)
+
+    dealer = Dealer(hand_size, wilds=False)
+    hand = dealer.deal()
 
     current_configuration = scoring.find_best_configuration(hand, wilds)
 
@@ -109,7 +111,16 @@ def hello_world():
         "chart_embed": build_histogram(simulated["scores"]).decode('utf8')
     }
 
-    return render_template('index.html', title='Five Crowns: Hand Analyzer', game=game)
+    return render_template('index.html', game=game)
+
+@app.route("/play")
+def play():
+    hand_size = 6
+
+    deck = dealer.init_deck(hand_size)
+    hand = dealer.deal(hand_size, hand_size - wilds)
+
+    return render_template("play.html")
 
 if __name__ == '__main__':
     app.run()
