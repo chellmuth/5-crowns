@@ -10,6 +10,7 @@ from crowns.scoring.sets import find_sets
 class HandConfiguration:
     score: int
     matches: List[Match]
+    remaining: List[Card]
 
 def _update_best_configuration(
     current_best: HandConfiguration,
@@ -35,7 +36,7 @@ def _find_best_configuration(
         wilds: int,
         matches: List[Match]
 ) -> HandConfiguration:
-    if not hand: return HandConfiguration(0, matches)
+    if not hand: return HandConfiguration(0, matches, hand)
 
     best_configuration = None
 
@@ -52,7 +53,7 @@ def _find_best_configuration(
                 match_queue.extend(run_matches)
 
     if not match_queue:
-        return HandConfiguration(score(hand), matches)
+        return HandConfiguration(score(hand), matches, hand)
 
     for match in match_queue:
         best_configuration = _update_best_configuration(

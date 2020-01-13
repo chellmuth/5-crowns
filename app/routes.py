@@ -47,14 +47,14 @@ def configuration_view(configuration):
             ] + [ "*" for _ in range(match.wilds) ]
             for match in configuration.matches
         ],
-        "remaining": [ card_to_fragment(card) for card in configuration.matches[-1].hand ]
+        "remaining": [ card_to_fragment(card) for card in configuration.remaining ]
     }
 
 
 @app.route('/')
 def hello_world():
-    hand_size = 6
-    wilds = 1
+    hand_size = 3
+    wilds = 0
     hand = dealer.deal(hand_size, hand_size - wilds)
 
     current_configuration = scoring.find_best_configuration(hand, wilds)
