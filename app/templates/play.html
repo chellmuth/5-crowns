@@ -13,7 +13,17 @@
 </head>
 <body>
 {% include "_hand.html" %}
-<form action="/play" method="POST">
-    <input type="submit" name="Draw!" value="draw" />
+<form id="play-form" action="/play" method="POST">
+    {% for card in game["hand"] %}
+        <button
+            name="move"
+            value="discard-{{loop.index - 1}}"
+            type="submit"
+            form="play-form"
+        >
+            Discard {{ card | safe }}
+        </button>
+    {% endfor %}
+    <button type="submit" name="move" value="draw">Draw!</button>
 </form>
 </body>

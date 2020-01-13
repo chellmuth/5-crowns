@@ -12,9 +12,9 @@ class Dealer:
             self.deck = deck.Deck(self.hand_size, wilds=0)
 
     def deal(self):
-        return set(self.deck.deal())
+        return self.deck.deal()
 
     def draw(self, hand):
         drawn = self.deck.draw()
         if drawn:
-            hand.add(drawn)
+            hand.append(drawn)

@@ -1,5 +1,4 @@
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, request
 
 import crowns.cards as cards
 import crowns.decision as decision
@@ -85,9 +84,9 @@ def hello_world():
     dealer = Dealer(hand_size, wilds=False)
     hand = dealer.deal()
 
-    current_configuration = scoring.find_best_configuration(hand, wilds)
+    current_configuration = scoring.find_best_configuration(set(hand), wilds)
 
-    simulated = simulation.simulate(hand, wilds)
+    simulated = simulation.simulate(set(hand), wilds)
 
     game = {
         "hand": [
@@ -118,12 +117,16 @@ class Game:
     def __init__(self, hand_size):
         self.hand_size = hand_size
         self.dealer = Dealer(hand_size)
-        self.hand = self.dealer.deal()
+        self.hand = cards.sort(self.dealer.deal())
         self.wilds = self.hand_size - len(self.hand)
 
     def draw(self):
         self.dealer.draw(self.hand)
+        self.hand = cards.sort(self.hand)
         self.wilds = (self.hand_size + 1) - len(self.hand)
+
+    def discard(self, index):
+        self.hand.pop(index)
 
 current_game = Game(3)
 
@@ -146,7 +149,14 @@ def play():
 @app.route("/play", methods=["POST"])
 def make_move():
     global current_game
-    current_game.draw()
+
+    move = request.form["move"]
+    if move == "draw":
+        current_game.draw()
+    elif move.startswith("discard-"):
+        verb, index_str = move.split("-")
+        index = int(index_str)
+        current_game.discard(index)
 
     return render_game(current_game)
 
