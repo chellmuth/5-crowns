@@ -119,6 +119,7 @@ class Game:
         self.dealer = Dealer(hand_size)
         self.hand = cards.sort(self.dealer.deal())
         self.wilds = self.hand_size - len(self.hand)
+        self.out = self._check_out()
 
     def draw(self):
         self.dealer.draw(self.hand)
@@ -127,6 +128,14 @@ class Game:
 
     def discard(self, index):
         self.hand.pop(index)
+        self.out = self._check_out()
+
+    def _check_out(self):
+        configuration = scoring.find_best_configuration(
+            set(self.hand),
+            self.wilds
+        )
+        return configuration.score == 0
 
 current_game = Game(3)
 
@@ -136,7 +145,8 @@ def render_game(game):
             card_to_fragment(card)
             for card in cards.sort(game.hand)
         ],
-        "wilds": game.wilds
+        "wilds": game.wilds,
+        "out": game.out
     }
 
     return render_template("play.html", game=game_view)
